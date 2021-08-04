@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/mvc
+        https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/tx
+        https://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <context:component-scan base-package="com.abir.*"/>
+	<mvc:resources mapping="/employees/resources/**" location="/WEB-INF/resources/" />
+	<mvc:annotation-driven enable-matrix-variables="true"/>
+    <tx:annotation-driven />
+	<mvc:resources mapping="swagger-ui.html"
+               location="classpath:/META-INF/resources/" />
+	<mvc:resources mapping="/webjars/**"
+               location="classpath:/META-INF/resources/webjars/" />
+	<mvc:default-servlet-handler />
+	<!-- datasource -->
+	<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" name="dataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/resume"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="root"></property>
+	</bean>
+	
+	<!-- Session Factory -->
+	<bean class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" name="sessionFactory">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+		<property name="packagesToScan" value="com.abir" />
+	</bean>
+	<!-- Transaction Manager-->
+	<bean class="org.springframework.orm.hibernate5.HibernateTransactionManager" name="transactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="swagger2Config"
+      class="springfox.documentation.swagger2.configuration.Swagger2DocumentationConfiguration">
+	</bean>
+	
+</beans>
