@@ -9,8 +9,10 @@ public interface IEmployeeDAO {
 	
 	public List<Employee> getAllEmployees();
 	public Employee getEmployeeById(int id);
-	public void insertEmployee(Employee employee);
+	public Employee getEmployeeByEmail(String email);
+	public Employee insertEmployee(Employee employee);
 	public void deleteEmployee(Employee employee);
 	public void updateEmployee(Employee editedEmployee);
+	
 	
 }

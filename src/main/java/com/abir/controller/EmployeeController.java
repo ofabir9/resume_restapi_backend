@@ -28,8 +28,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.abir.converter.Converter;
 import com.abir.dto.EmployeeDTO;
+import com.abir.dto_to_model_converter.DTOToModelConverter;
 import com.abir.model.Employee;
 import com.abir.service.EmployeeService;
 
@@ -115,7 +115,7 @@ public class EmployeeController {
 			return new ResponseEntity<>(map,HttpStatus.BAD_REQUEST);
 		}
 		
-		employeeService.insertEmployee(Converter.employeeDTOToEmployee(employeeDTO));
+		employeeService.insertEmployee(DTOToModelConverter.employeeDTOToEmployee(employeeDTO));
 		
 		
 		return new ResponseEntity<Boolean>(true,HttpStatus.CREATED); 
@@ -154,7 +154,7 @@ public class EmployeeController {
 			return new ResponseEntity<>(map,HttpStatus.BAD_REQUEST);
 		}
 
-		employeeService.updateEmployee(Converter.employeeDTOToEmployee(employeeDTO));
+		employeeService.updateEmployee(DTOToModelConverter.employeeDTOToEmployee(employeeDTO));
 		
 		return new ResponseEntity<Boolean>(true,HttpStatus.CREATED);
 	}

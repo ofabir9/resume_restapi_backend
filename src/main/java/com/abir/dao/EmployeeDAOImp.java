@@ -26,9 +26,7 @@ import com.abir.service.SkillService;
 @Repository
 public class EmployeeDAOImp implements IEmployeeDAO{
 
-	private static EmployeeDAOImp instance;
-	private List<Employee> employees;
-	private static int available_id;
+	
 	private SessionFactory sessionFactory;
 	
 	@Autowired
@@ -71,17 +69,18 @@ public class EmployeeDAOImp implements IEmployeeDAO{
 			return session.get(Employee.class, id);
 		}
 		catch (Exception e) {
-			return new Employee();
+			return null;
 		}
 		
 	}
 
 	@Override
 	@Transactional
-	public void insertEmployee(Employee employee) {
+	public Employee insertEmployee(Employee employee) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.getCurrentSession();
 		session.save(employee);	
+		return employee;
 	}
 
 	
@@ -103,6 +102,29 @@ public class EmployeeDAOImp implements IEmployeeDAO{
 //		insertEmployee(newEmployee);
 		Session session = sessionFactory.getCurrentSession();
 		session.update(editedEmployee);
+	}
+
+	@Override
+	@Transactional
+	public Employee getEmployeeByEmail(String email) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+
+		CriteriaQuery<Employee> criteriaQuery = builder.createQuery(Employee.class);
+		Root<Employee> root= criteriaQuery.from(Employee.class);
+		criteriaQuery.select(root);
+		
+		criteriaQuery.where(builder.equal(root.get("email"),email));
+		
+		TypedQuery<Employee> query = session.createQuery(criteriaQuery);
+		List<Employee> employeeList = query.getResultList();
+		if(employeeList.isEmpty())
+		{
+			return null;
+		}
+		return employeeList.get(0);
 	}
 	
 

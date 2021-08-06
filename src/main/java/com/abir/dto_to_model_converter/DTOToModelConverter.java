@@ -1,10 +1,11 @@
-package com.abir.converter;
+package com.abir.dto_to_model_converter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import com.abir.dto.EmployeeDTO;
+import com.abir.dto.UserRegistrationDTO;
 import com.abir.model.Achievement;
 import com.abir.model.Education;
 import com.abir.model.Employee;
@@ -12,7 +13,7 @@ import com.abir.model.Project;
 import com.abir.model.Skill;
 import com.abir.validator.EmployeeValidator;
 
-public class Converter {
+public class DTOToModelConverter {
 
 	public static Employee employeeDTOToEmployee(EmployeeDTO employeeDTO) {
 		
@@ -92,8 +93,8 @@ public class Converter {
         
         
         List<String>errors = EmployeeValidator.getErrors(employee);
-return employee;
-}
+        return employee;
+	}
 	public static EmployeeDTO employeeToEmployeeDTO(Employee employee)
 	{
 		EmployeeDTO employeeDTO = new EmployeeDTO();
@@ -214,4 +215,17 @@ return employee;
     	
 		return employeeDTO;
 	}
+	public static Employee userRegistrationDTOToEmployee(UserRegistrationDTO userRegistrationDTO) {
+		
+		Employee employee = new Employee();
+		
+		employee.setFirstName(userRegistrationDTO.getFirstName());
+		employee.setLastName(userRegistrationDTO.getLastName());
+		employee.setEmail(userRegistrationDTO.getEmail());
+		employee.setPassword(userRegistrationDTO.getPassword());
+		
+		return employee;
+	}
+	
+	
 }
